@@ -1,13 +1,13 @@
 #!/bin/bash
 
-JARVIR_DIR_PATH=.jarvis.d/*.sh
+IKEIN_DIR_PATH=.ikein.d/*.sh
 
 load_modules() {
-    JARVIS_MODULES=()
+    IKEIN_MODULES=()
     echo "Loading modules..."
-    for file in $JARVIR_DIR_PATH; do
+    for file in $IKEIN_DIR_PATH; do
         source "$file"
-        JARVIS_MODULES=($(echo ${JARVIS_MODULES[*]}) $(echo ${FUNCTIONS[*]}))
+        IKEIN_MODULES=($(echo ${IKEIN_MODULES[*]}) $(echo ${FUNCTIONS[*]}))
         echo "[OK] $file"
     done
 }
@@ -19,10 +19,11 @@ containsElement() {
     return 1
 }
 
-jarvis() {
-    if containsElement "$1" "${JARVIS_MODULES[@]}"; then
+ikein() {
+    ikein_command="ikein_$1"
+    if containsElement ${ikein_command} "${IKEIN_MODULES[@]}"; then
         echo "Command found"
-        $1
+        $ikein_command
     else
         echo "Command not found"
     fi
@@ -33,5 +34,5 @@ load_modules
 if [ $# = 0 ]; then
     echo "Add command"
 else
-    jarvis $1
+    ikein $1
 fi
